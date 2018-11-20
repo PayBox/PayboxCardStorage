@@ -10,18 +10,20 @@
 
 namespace Paybox\CardStorage;
 
-use Paybox\Core\Exceptions\Property as PropertyException;
-use Paybox\Core\Exceptions\Connection as ConnectionException;
-use Paybox\Core\Exceptions\Request as RequestException;
-use Paybox\Core\Abstractions\DataContainer;
-use Paybox\Core\Interfaces\CardStorage as CardStorageInterface;
+use Paybox\Core\ {
+    Exceptions\Property as PropertyException,
+    Exceptions\Connection as ConnectionException,
+    Exceptions\Request as RequestException,
+    Abstractions\DataContainer,
+    Interfaces\CardStorage as CardStorageInterface
+};
 
 /**
  * Facade of Paybox\CardStorage classes
  * Simple facade for comfortable using a whole Paybox card storage functionality
  *
  * @package Paybox\CardStorage
- * @version 1.1.0
+ * @version 1.2.0
  * @copyright LLC Paybox.money
  * @license GPLv3 @link https://www.gnu.org/licenses/gpl-3.0-standalone.html
  *
@@ -51,22 +53,17 @@ class Facade extends DataContainer implements CardStorageInterface {
      *
      */
 
-    public function addCard() {
+    public function addCard():array {
         try {
             $this->config->required('postLink');
             $this->config->required('backLink');
             $this->save("v1/merchant/{$this->merchant->id}/cardstorage/add", false);
             $this->send();
             return $this->getFullServerAnswer();
-        } catch(PropertyException $e) {
+        } catch(PropertyException | ConnectionException | RequestException $e) {
             echo $e->getMessage();
-        } catch(ConnectionException $e) {
-            echo $e->getMessage();
-        } catch(RequestException $e) {
-            echo $e->getMessage();
+            return [];
         }
-
-        return [];
     }
 
     /**
@@ -77,20 +74,15 @@ class Facade extends DataContainer implements CardStorageInterface {
      *
      */
 
-    public function getCardList() {
+    public function getCardList():array {
         try {
             $this->save("v1/merchant/{$this->merchant->id}/cardstorage/list", false);
             $this->send();
-            return $this->getFullServerAnswer()['card'] ? $this->getFullServerAnswer()['card'] : [];
-        } catch(PropertyException $e) {
+            return $this->getFullServerAnswer()['card'] ?? [];
+        } catch(PropertyException | ConnectionException | RequestException $e) {
             echo $e->getMessage();
-        } catch(ConnectionException $e) {
-            echo $e->getMessage();
-        } catch(RequestException $e) {
-            echo $e->getMessage();
+            return [];
         }
-
-        return [];
     }
 
     /**
@@ -101,7 +93,7 @@ class Facade extends DataContainer implements CardStorageInterface {
      *
      */
 
-    public function removeCard() {
+    public function removeCard():bool {
         try {
             $this->save("v1/merchant/{$this->merchant->id}/cardstorage/remove", false);
             $this->send();
@@ -112,15 +104,10 @@ class Facade extends DataContainer implements CardStorageInterface {
             }
 
             return false;
-        } catch(PropertyException $e) {
+        } catch(PropertyException | ConnectionException | RequestException $e) {
             echo $e->getMessage();
-        } catch(ConnectionException $e) {
-            echo $e->getMessage();
-        } catch(RequestException $e) {
-            echo $e->getMessage();
+            return false;
         }
-
-        return [];
     }
 
     /**
@@ -131,7 +118,7 @@ class Facade extends DataContainer implements CardStorageInterface {
      *
      */
 
-    public function initPayment() {
+    public function initPayment():array {
         try {
             $this->order->required('id');
             $this->order->required('amount');
@@ -139,15 +126,10 @@ class Facade extends DataContainer implements CardStorageInterface {
             $this->save("v1/merchant/{$this->merchant->id}/card/init", false);
             $this->send();
             return $this->getFullServerAnswer();
-        } catch(PropertyException $e) {
+        } catch(PropertyException | ConnectionException | RequestException $e) {
             echo $e->getMessage();
-        } catch(ConnectionException $e) {
-            echo $e->getMessage();
-        } catch(RequestException $e) {
-            echo $e->getMessage();
+            return [];
         }
-
-        return [];
     }
 
     /**
@@ -158,21 +140,16 @@ class Facade extends DataContainer implements CardStorageInterface {
      *
      */
 
-    public function pay() {
+    public function pay():bool {
         try {
             $this->payment->required('id');
             $this->save("v1/merchant/{$this->merchant->id}/card/pay", false);
             $this->send();
             return true;
-        } catch(PropertyException $e) {
+        } catch(PropertyException | ConnectionException | RequestException $e) {
             echo $e->getMessage();
-        } catch(ConnectionException $e) {
-            echo $e->getMessage();
-        } catch(RequestException $e) {
-            echo $e->getMessage();
+            return false;
         }
-
-        return [];
     }
 
     /**
@@ -184,7 +161,7 @@ class Facade extends DataContainer implements CardStorageInterface {
      * @return array
      */
 
-    public function parseXML($request) {
+    public function parseXML($request):array {
         return (array) (new \SimpleXMLElement($request['pg_xml']));
     }
 
@@ -196,7 +173,7 @@ class Facade extends DataContainer implements CardStorageInterface {
      *
      */
 
-    protected function getBaseUrl() {
+    protected function getBaseUrl():string {
         return 'https://api.paybox.money/';
     }
 }
