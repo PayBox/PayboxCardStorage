@@ -53,6 +53,8 @@ class Facade extends DataContainer implements CardStorageInterface {
 
     public function addCard() {
         try {
+            $this->config->required('postLink');
+            $this->config->required('backLink');
             $this->save("v1/merchant/{$this->merchant->id}/cardstorage/add", false);
             $this->send();
             return $this->getFullServerAnswer();
