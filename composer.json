@@ -11,7 +11,7 @@
     "minimum-stability": "stable",
     "require": {
         "php": "^7.0",
-        "payboxmoney/core": "^1.2.0"
+        "payboxmoney/core": "1.2.*"
     },
     "config": {
         "platform": {
