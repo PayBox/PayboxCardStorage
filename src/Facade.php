@@ -21,7 +21,7 @@ use Paybox\Core\Interfaces\CardStorage as CardStorageInterface;
  * Simple facade for comfortable using a whole Paybox card storage functionality
  *
  * @package Paybox\CardStorage
- * @version 1.1.0
+ * @version 1.1.1
  * @copyright LLC Paybox.money
  * @license GPLv3 @link https://www.gnu.org/licenses/gpl-3.0-standalone.html
  *
@@ -154,15 +154,24 @@ class Facade extends DataContainer implements CardStorageInterface {
      *
      * This method send request to pay payment by saved card
      *
+     * @param string $body
      * @return bool|Exception
      *
      */
 
-    public function pay() {
+    public function pay(&$body = null) {
         try {
+            $body = null;
+
             $this->payment->required('id');
             $this->save("v1/merchant/{$this->merchant->id}/card/pay", false);
             $this->send();
+            $answer = $this->getFullServerAnswer();
+
+            if (isset($answer['body']->form) && is_object($answer['body']->form)) {
+                $body = $answer['body']->asXML();
+            }
+
             return true;
         } catch(PropertyException $e) {
             echo $e->getMessage();
@@ -171,6 +180,8 @@ class Facade extends DataContainer implements CardStorageInterface {
         } catch(RequestException $e) {
             echo $e->getMessage();
         }
+
+        $body = null;
 
         return [];
     }
