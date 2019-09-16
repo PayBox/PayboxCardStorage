@@ -19,7 +19,7 @@ $ composer require payboxmoney/cardstorage
 
 ### Запрос на инициализацию iframe
 
-[Ссылка на описание](https://paybox.money/docs/ru/pay-in/3.3#tag/Rabota-s-kartami/paths/~1v1~1merchant~1{merchant_id}~1cardstorage~1add/post)
+[Подробное описание](https://paybox.money/docs/ru/pay-in/3.3#tag/Rabota-s-kartami/paths/~1v1~1merchant~1{merchant_id}~1cardstorage~1add/post)
 
 #### Пример
 ~~~php
@@ -40,7 +40,7 @@ if ($cardStorage->addCard()) {
 
 ### Получение списка карт
 
-[Ссылка на описание](https://paybox.money/docs/ru/pay-in/3.3#tag/Rabota-s-kartami/paths/~1v1~1merchant~1{merchant_id}~1cardstorage~1list/post)
+[Подробное описание](https://paybox.money/docs/ru/pay-in/3.3#tag/Rabota-s-kartami/paths/~1v1~1merchant~1{merchant_id}~1cardstorage~1list/post)
 
 #### Пример
 ~~~php
@@ -57,7 +57,7 @@ $result = $cardStorage->getCardList();
 
 ### Удаление карты
 
-[Ссылка на описание](https://paybox.money/docs/ru/pay-in/3.3#tag/Rabota-s-kartami/paths/~1v1~1merchant~1{merchant_id}~1cardstorage~1remove/post)
+[Подробное описание](https://paybox.money/docs/ru/pay-in/3.3#tag/Rabota-s-kartami/paths/~1v1~1merchant~1{merchant_id}~1cardstorage~1remove/post)
 
 #### Пример
 ~~~php
@@ -75,7 +75,7 @@ $result = $cardStorage->removeCard();
 
 ### Инициализации платежа для оплаты сохраненной картой
 
-[Ссылка на описание](https://paybox.money/docs/ru/pay-in/3.3#tag/Rabota-s-kartami/paths/~1v1~1merchant~1{merchant_id}~1card~1init/post)
+[Подробное описание](https://paybox.money/docs/ru/pay-in/3.3#tag/Rabota-s-kartami/paths/~1v1~1merchant~1{merchant_id}~1card~1init/post)
 
 #### Пример
 ~~~php
@@ -96,7 +96,7 @@ $result = $cardStorage->initPayment();
 
 ### Проведение платежа сохраненной картой
 
-[Ссылка на описание](https://paybox.money/docs/ru/pay-in/3.3#tag/Rabota-s-kartami/paths/~1v1~1merchant~1{merchant_id}~1card~1pay/post)
+[Подробное описание](https://paybox.money/docs/ru/pay-in/3.3#tag/Rabota-s-kartami/paths/~1v1~1merchant~1{merchant_id}~1card~1pay/post)
 
 #### Пример
 ~~~php
