@@ -1,4 +1,4 @@
-# Paybox Core
+# PayboxCardStorage
 ___
 Пакет упрощает работу с картами Paybox.
 
